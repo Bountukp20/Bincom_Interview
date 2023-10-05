@@ -1,0 +1,16 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block css_files %}
+    <script src="https://kit.fontawesome.com/0a96adf822.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% endblock %}
+{% block title %}
+   Success
+{% endblock %}
+
+{% block content %}
+    <br><br><br>
+    <h1>Hurray</h1>
+    <a href="{% url "sum_polling_unit"%}">Next >></a>
+{% endblock %}
