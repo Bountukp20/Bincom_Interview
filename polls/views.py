@@ -10,7 +10,7 @@ from django.utils import timezone
 def home(request):
     return render(request, "polls/index.html")
 
-def polling_units(request):
+def polling_unit(request):
 
     units = PollingUnit.objects.filter(
         lga_id__in=LGA.objects.filter(
