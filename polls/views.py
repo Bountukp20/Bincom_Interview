@@ -4,7 +4,9 @@ from django.db import connection
 
 from django.shortcuts import render, get_object_or_404
 
-from .models import PollingUnit, AnnouncedPUResult
+from .models import PollingUnit, AnnouncedPUResult, LGA
+
+from django.db.models import Sum
 
 
 def polling_unit(request, polling_unit_id):
