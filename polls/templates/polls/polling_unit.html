@@ -10,10 +10,43 @@
 {% endblock %}
 
 {% block content %}
-    <ul>
-        {% for row in rows %}
-            <li>{{ row }}</li>
+
+<h1>Polling Unit Results</h1>
+
+<h2>{{ polling_unit.polling_unit_name }}</h2>
+
+<p>
+    <strong>Polling Unit Number:</strong>
+    {{ polling_unit.polling_unit_number }}
+</p>
+
+<p>
+    <strong>Polling Unit ID:</strong>
+    {{ polling_unit.uniqueid }}
+</p>
+
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>Party</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for result in results %}
+        <tr>
+            <td>{{ result.party_abbreviation }}</td>
+            <td>{{ result.party_score }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">
+                No results found for this polling unit.
+            </td>
+        </tr>
         {% endfor %}
-    </ul>
-    <a href="{% url "sum_polling_unit"%}">Next >></a>
+    </tbody>
+</table>
+    
 {% endblock %}
