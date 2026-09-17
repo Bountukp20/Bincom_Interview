@@ -11,4 +11,5 @@ urlpatterns = [
     path("polling-unit/<int:polling_unit_id>/", polling_unit, name="polling_unit"),
     path("lga-results/", views.lga_results, name="lga_results"),
     path("polling-unit/new/", views.create_polling_unit, name="create_polling_unit"),
+    path("", views.home, name="home"),
 ]
