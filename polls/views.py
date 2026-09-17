@@ -22,7 +22,7 @@ def polling_unit(request, polling_unit_id):
 
     return render(
         request,
-        "results/polling_unit.html",
+        "polls/polling_unit.html",
         {
             "polling_unit": polling_unit,
             "results": results,
