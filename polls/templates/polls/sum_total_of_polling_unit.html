@@ -6,14 +6,90 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 {% endblock %}
 {% block title %}
-   All Polling_Unit
+   Polling_Unit results 
 {% endblock %}
 
 {% block content %}
-    <ul>
-        {% for row in rows %}
-            <li>{{ row }}</li>
+
+<h1>LGA Polling Unit Results</h1>
+
+<form method="get">
+
+    <label for="lga">
+        Select Local Government:
+    </label>
+
+    <select name="lga" id="lga">
+
+        <option value="">
+            -- Select LGA --
+        </option>
+
+        {% for lga in lgas %}
+
+        <option
+            value="{{ lga.lga_id }}"
+            {% if request.GET.lga == lga.lga_id|stringformat:"s" %}
+                selected
+            {% endif %}
+        >
+            {{ lga.lga_name }}
+        </option>
+
         {% endfor %}
-    </ul>
-    <a href="{% url "add_new_polling_unit"%}">Next >></a>
+
+    </select>
+
+    <button type="submit">
+        View Results
+    </button>
+
+</form>
+
+
+{% if selected_lga_name %}
+
+    <h2>
+        Results for {{ selected_lga_name }}
+    </h2>
+
+    <table border="1" cellpadding="10">
+
+        <thead>
+            <tr>
+                <th>Party</th>
+                <th>Total Score</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for result in results %}
+
+            <tr>
+                <td>
+                    {{ result.party_abbreviation }}
+                </td>
+
+                <td>
+                    {{ result.total_score }}
+                </td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="2">
+                    No results found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+{% endif %}
+
 {% endblock %}
