@@ -7,23 +7,22 @@ from django.db.models import Sum
 from django.db import transaction
 from django.utils import timezone
 
+def home(request):
+    return render(request, "polls/index.html")
 
-def polling_unit(request, polling_unit_id):
-    polling_unit = get_object_or_404(
-        PollingUnit,
-        uniqueid=polling_unit_id
-    )
+def polling_units(request):
 
-    results = AnnouncedPUResult.objects.filter(
-        polling_unit_uniqueid=str(polling_unit.uniqueid)
-    ).order_by("-party_score")
+    units = PollingUnit.objects.filter(
+        lga_id__in=LGA.objects.filter(
+            state_id=25
+        ).values("lga_id")
+    ).order_by("polling_unit_name")
 
     return render(
         request,
-        "polls/polling_unit.html",
+        "polls/polling_units.html",
         {
-            "polling_unit": polling_unit,
-            "results": results,
+            "polling_units": units
         }
     )
 
