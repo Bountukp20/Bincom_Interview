@@ -1,17 +1,30 @@
-from django.shortcuts import render
-
 # Create your views here.
 
 from django.db import connection
-from django.shortcuts import render
 
-def polling_unit(request):
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM polling_unit where polling_unit_name = 'Sapele Ward 8 PU _'")
-        rows = cursor.fetchall()
+from django.shortcuts import render, get_object_or_404
 
-    # Process the rows and return the response
-    return render(request, 'polls/polling_unit.html', {'rows': rows})
+from .models import PollingUnit, AnnouncedPUResult
+
+
+def polling_unit_results(request, polling_unit_id):
+    polling_unit = get_object_or_404(
+        PollingUnit,
+        uniqueid=polling_unit_id
+    )
+
+    results = AnnouncedPUResult.objects.filter(
+        polling_unit_uniqueid=str(polling_unit.uniqueid)
+    ).order_by("-party_score")
+
+    return render(
+        request,
+        "polls/polling_unit.html",
+        {
+            "polling_unit": polling_unit,
+            "results": results,
+        }
+    )
 
 def sum_polling_unit(request):
     with connection.cursor() as cursor:
