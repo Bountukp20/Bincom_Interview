@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html"%}
+{% load static %}
 
-<head>
-    <title>Bincom Election Results</title>
-</head>
+{% block css_files %}
+    <script src="https://kit.fontawesome.com/0a96adf822.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% endblock %}
+{% block title %}
+   Home
+{% endblock %}
 
-<body>
-
+{% block content %}
 <nav>
 
     <a href="{% url 'lga_results' %}">
@@ -26,6 +29,4 @@
 {% block content %}
 {% endblock %}
 
-</body>
-
-</html>
+{% endblock %}
