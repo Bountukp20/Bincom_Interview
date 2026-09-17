@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import PollingUnit, AnnouncedPUResult
 
 
-def polling_unit_results(request, polling_unit_id):
+def polling_unit(request, polling_unit_id):
     polling_unit = get_object_or_404(
         PollingUnit,
         uniqueid=polling_unit_id
