@@ -26,21 +26,46 @@ def polling_unit(request, polling_unit_id):
         }
     )
 
-def sum_polling_unit(request):
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM polling_unit")
-        rows = cursor.fetchall()
+def lga_results(request):
 
-    # Process the rows and return the response
-    return render(request, 'polls/sum_total_of_polling_unit.html', {'rows': rows})
+    lgas = LGA.objects.filter(
+        state_id=25
+    ).order_by("lga_name")
 
-def add_new_polling_unit(request):
-    if request.method == 'POST':
-        content = request.POST.get('content')
-        if content:
-            with connection.cursor() as cursor:
-                # Assuming 'your_table' is the name of your table and 'content_field' is the field name
-                cursor.execute("INSERT INTO polling_unit (polling_unit_id) VALUES (%s)", [content])
-            return render(request, 'polls/success.html')
+    selected_lga = request.GET.get("lga")
 
-    return render(request, 'polls/add_polling_unit.html')
+    results = []
+
+    selected_lga_name = None
+
+    if selected_lga:
+
+        lga = get_object_or_404(
+            LGA,
+            lga_id=selected_lga,
+            state_id=25
+        )
+
+        selected_lga_name = lga.lga_name
+
+        results = (
+            AnnouncedPUResult.objects
+            .filter(
+                polling_unit_uniqueid__in=PollingUnit.objects.filter(
+                    lga_id=lga.lga_id
+                ).values("uniqueid")
+            )
+            .values("party_abbreviation")
+            .annotate(total_score=Sum("party_score"))
+            .order_by("-total_score")
+        )
+
+    return render(
+        request,
+        "polls/lga_results.html",
+        {
+            "lgas": lgas,
+            "results": results,
+            "selected_lga_name": selected_lga_name,
+        }
+    )
