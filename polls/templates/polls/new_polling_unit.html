@@ -1,0 +1,52 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block css_files %}
+    <script src="https://kit.fontawesome.com/0a96adf822.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% endblock %}
+{% block title %}
+    Add_New_Polling_Unit
+{% endblock %}
+
+{% block content %}
+
+<h1>Create New Polling Unit</h1>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <h2>Party Results</h2>
+
+    {% for party in parties %}
+
+        <div>
+
+            <label>
+                {{ party.partyname }}
+            </label>
+
+            <input
+                type="number"
+                name="score_{{ party.partyid }}"
+                value="0"
+                min="0"
+                required
+            >
+
+        </div>
+
+        <br>
+
+    {% endfor %}
+
+    <button type="submit">
+        Save Polling Unit
+    </button>
+
+</form>
+
+{% endblock %}
