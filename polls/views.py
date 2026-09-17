@@ -121,7 +121,7 @@ def create_polling_unit(request):
 
             return render(
                 request,
-                "results/success.html",
+                "polls/success.html",
                 {
                     "polling_unit": polling_unit
                 }
@@ -132,7 +132,7 @@ def create_polling_unit(request):
 
     return render(
         request,
-        "results/new_polling_unit.html",
+        "polls/new_polling_unit.html",
         {
             "form": form,
             "parties": parties,
