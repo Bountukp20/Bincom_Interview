@@ -10,19 +10,22 @@ from django.utils import timezone
 def home(request):
     return render(request, "polls/index.html")
 
-def polling_unit(request):
+def polling_unit(request, polling_unit_id):
+    polling_unit = get_object_or_404(
+        PollingUnit,
+        uniqueid=polling_unit_id
+    )
 
-    units = PollingUnit.objects.filter(
-        lga_id__in=LGA.objects.filter(
-            state_id=25
-        ).values("lga_id")
-    ).order_by("polling_unit_name")
+    results = AnnouncedPUResult.objects.filter(
+        polling_unit_uniqueid=str(polling_unit.uniqueid)
+    ).order_by("-party_score")
 
     return render(
         request,
-        "polls/polling_units.html",
+        "results/polling_unit.html",
         {
-            "polling_units": units
+            "polling_unit": polling_unit,
+            "results": results,
         }
     )
 
